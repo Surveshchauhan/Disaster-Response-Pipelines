@@ -28,7 +28,7 @@ Outputs results on the test set
 Exports the final model as a pickle file
 
 3. Flask Web App
-We will be taking be taking the user message and classify them into 36 categories. There are some beautiful visualization of the data as well
+We will be taking the user message and classify them into 36 categories. There are some beautiful visualization of the data as well
 
 
 All of the necessary criteria for developing the pipeline and web app is given in the rubric below
