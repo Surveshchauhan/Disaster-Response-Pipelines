@@ -9,7 +9,7 @@ Your project will include a web app where an emergency worker can input a new me
 
 
 Project Components
-There are three components you'll need to complete for this project.
+There are three components we'll need to complete for this project.
 
 1. ETL Pipeline
 In a Python script, process_data.py, write a data cleaning pipeline that:
@@ -18,6 +18,7 @@ Loads the messages and categories datasets
 Merges the two datasets
 Cleans the data
 Stores it in a SQLite database
+
 2. ML Pipeline
 In a Python script, train_classifier.py, write a machine learning pipeline that:
 
@@ -27,18 +28,14 @@ Builds a text processing and machine learning pipeline
 Trains and tunes a model using GridSearchCV
 Outputs results on the test set
 Exports the final model as a pickle file
+
 3. Flask Web App
-We are providing much of the flask web app for you, but feel free to add extra features depending on your knowledge of flask, html, css and javascript. For this part, you'll need to:
+We will be taking be taking the user message and classify them into 36 categories. There are some beautiful visualization of the data as well
 
-Modify file paths for database and model as needed
-Add data visualizations using Plotly in the web app. One example is provided for you
-Github & Code Quality
-Your project will also be graded based on the following:
 
-Use of Git and Github
-Strong documenetation
-Clean and modular code
-Follow the RUBRIC when you work on your project to assure you meet all of the necessary criteria for developing the pipeline and web app.
+All of the necessary criteria for developing the pipeline and web app is given in the rubric below
+https://review.udacity.com/#!/rubrics/1565/view
+
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
