@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.multioutput import MultiOutputClassifier
 
 
 def load_data(database_filepath):
@@ -62,15 +63,16 @@ def tokenize(text):
 
 
 def build_model():
-     """
+    """
     buils a machine learning pipeline to be used in the model, gridsearchcv is used for finding best paramers
     :param None
     :return: model with best parameters
     """
     pipeline = Pipeline([
-        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('vect', CountVectorizer(tokenizer=tokenize,)),
         ('tfidf', TfidfTransformer()),
-        ('clf', RandomForestClassifier())
+        #('clf', RandomForestClassifier())
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
     
     parameters = {
@@ -107,7 +109,7 @@ def display_results(model, X_train, Y_train,X_test, Y_test):
     print("f1score:",f1score)
    
 def evaluate_model(model, X_test, Y_test):
-     """
+    """
     evaulate the model by calculating the accuracy, precision, recall, f1 score
     :param model: tarained model that will be used to predict
     :param X_test: predictors
@@ -129,7 +131,7 @@ def evaluate_model(model, X_test, Y_test):
 
 
 def save_model(model, model_filepath):
-     """
+    """
     save rhe best model in pickle format for later use
     :param model: best model to be saved
     :param model_filepath: file path to be sued ot save the model
