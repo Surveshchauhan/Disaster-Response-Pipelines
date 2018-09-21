@@ -88,25 +88,30 @@ def build_model():
     return cv
 
 #Testing
-def display_results(model, X_train, Y_train,X_test, Y_test):
+def display_results(model, X_train, Y_train,X_test, Y_test,category_names):
     """
     display train/test accuracy, precisin , recall, f1score
     :param model, X_train, Y_train,X_test, Y_test: Train and test data aling with trained model
     :return: prints train/test accuracy, precisin , recall, f1score
     """
-    accuracy, precision, recall,f1score=evaluate_model(model, X_train, Y_train)
+    accuracy, precision, recall,f1score,df=evaluate_model(model, X_train, Y_train)
     print("Train Stats")
     print("Accuracy:",accuracy)
     print("precision:",precision)
     print("recall:",recall)
     print("f1score:",f1score)
+    df.index=category_names
+    print("Precision, Recall and Accuracy at Category Level for Train set\n",df)
     #Testing on Test Set
-    accuracy, precision, recall,f1score=evaluate_model(model, X_test, Y_test)
+    accuracy, precision, recall,f1score,dftest=evaluate_model(model, X_test, Y_test)
+    print("------------------------------------------------------------------------")
     print("Test Stats")
     print("Accuracy:",accuracy)
     print("precision:",precision)
     print("recall:",recall)
     print("f1score:",f1score)
+    dftest.index=category_names
+    print("Precision, Recall and Accuracy at Category Level for Test set\n",dftest)
    
 def evaluate_model(model, X_test, Y_test):
     """
@@ -117,6 +122,9 @@ def evaluate_model(model, X_test, Y_test):
     :return: accuracy, precision, recall, f1 score
     """
     Y_pred = model.predict(X_test)
+    col=["Precision","Recall","Accuracy"]
+    dfCategoriesAccuracy=pd.DataFrame(columns=col)
+    dfCategoriesAccuracy.columns=col
     from sklearn.metrics import f1_score,precision_score,recall_score,accuracy_score
     f1=[]
     p=[]
@@ -127,7 +135,11 @@ def evaluate_model(model, X_test, Y_test):
         p.append(precision_score(Y_test[:,c],Y_pred[:,c],average='macro'))
         r.append(recall_score(Y_test[:,c],Y_pred[:,c],average='macro'))
         a.append(accuracy_score(Y_test[:,c],Y_pred[:,c]))
-    return (np.array(a).mean(),np.array(p).mean(),np.array(r).mean(),np.array(f1).mean())
+    
+    dfCategoriesAccuracy.Precision=p
+    dfCategoriesAccuracy.Recall=r
+    dfCategoriesAccuracy.Accuracy=a
+    return (np.array(a).mean(),np.array(p).mean(),np.array(r).mean(),np.array(f1).mean(),dfCategoriesAccuracy)
 
 
 def save_model(model, model_filepath):
@@ -154,7 +166,7 @@ def main():
         model.fit(X_train, Y_train)
         
         print('Evaluating model...')
-        display_results(model, X_train, Y_train,X_test, Y_test)
+        display_results(model, X_train, Y_train,X_test, Y_test,category_names)
         #evaluate_model(model, X_test, Y_test, category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
